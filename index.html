@@ -38,7 +38,7 @@ else if     (y < 60+h)      {       }
 else if     (y < 60+2*h)    { sq+=3;}
 else if     (y < 60+3*h)    { sq+=6;}
 else                        { sq= 0;}
-game+="O"+sq;  console.log(sq); output();
+game+="O"+sq;  console.log(sq); output(); win();
 }
 
 function output() {                             // Draw X
@@ -53,6 +53,16 @@ if (r == 6) g.fillText("X",i+2*w,j+h);
 if (r == 7) g.fillText("X",i,j+2*h);
 if (r == 8) g.fillText("X",i+w,j+2*h);
 if (r == 9) g.fillText("X",i+2*w,j+2*h);
+}
+
+function win() {                                // Test Win Conditons
+var PO=new Array(); 
+for (var i=0; i<game.length; i++)               // Remove and Sort "O" Cells
+{   if (game[i] == "O") PO[i] = game[i+1];  }
+PO=PO.sort();
+console.log(PO.toString());
+for (var j=0; j<PO.length; j++)             
+{   if (PO[j+1]-PO[j] === PO[j+2]-PO[j+1]) console.log("YOU WIN!");}
 }
 </script>
 <p>By Enio Fernandes</p>
