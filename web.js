@@ -21,7 +21,7 @@ app.get("/", function(req, res) {
 });
 
  /* serves all the static files */
- app.use(express.static(__dirname + '/static'));
+ app.use(express.static(__dirname + './'));
 
  var port = process.env.PORT || 80;
  app.listen(port, function() {
