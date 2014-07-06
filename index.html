@@ -41,9 +41,17 @@ else                        { sq= 0;}
 game+="O"+sq;  console.log(sq); output(); win();
 }
 
+var r;
+
 function output() {                             // Draw X
 var i=w/3; var j=h*2/3;                         // Offset Sq Center
-var r = Math.floor(Math.random()*8)+1;
+
+do 
+{  random();  
+   console.log(game.search(r));
+}
+while (game.search(r) == -1);
+
 if (r == 1) g.fillText("X",i,j);
 if (r == 2) g.fillText("X",i+w,j);
 if (r == 3) g.fillText("X",i+2*w,j);
@@ -53,6 +61,10 @@ if (r == 6) g.fillText("X",i+2*w,j+h);
 if (r == 7) g.fillText("X",i,j+2*h);
 if (r == 8) g.fillText("X",i+w,j+2*h);
 if (r == 9) g.fillText("X",i+2*w,j+2*h);
+}
+
+function random{
+  r = Math.floor(Math.random()*8)+1;
 }
 
 function win() {                                // Test Win Conditons
