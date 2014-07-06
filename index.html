@@ -47,9 +47,7 @@ function output() {                             // Draw X
 var i=w/3; var j=h*2/3;                         // Offset Sq Center
 
 do 
-{  random();  
-   console.log('search: ' + game.search(r));
-}
+{  random();  }
 while (game.search(r) == -1);
 
 if (r == 1) g.fillText("X",i,j);
@@ -65,6 +63,7 @@ if (r == 9) g.fillText("X",i+2*w,j+2*h);
 
 function random() {
   r = Math.floor(Math.random()*8)+1;
+  console.log('r: ' & r);
 }
 
 function win() {                                // Test Win Conditons
