@@ -26,7 +26,7 @@ g.fillText("O",event.clientX-35,event.clientY-55);
 XYtoSQ(event.clientX,event.clientY);
 }
 
-var w=100; var h=100; var sq; var game;
+var w=100; var h=100; var sq; var game; var r;
 function  XYtoSQ(x,y) {                         // Convert MouseXY to a SQ
      if     (x < 10)        { sq=0; }           // Canvas starts 10 pixels on x
 else if     (x < 10+w)      { sq=1; }
@@ -42,13 +42,9 @@ game+="O"+sq;  console.log('O: '.concat(sq));   // Store Game
 output(); win();
 }
 
-var r;
-
 function output() {                             // Draw X
 var i=w/3; var j=h*2/3;                         // Offset Sq Center
-
-do 
-{ random(); }
+do  { random(); }
 while (game.search(r) != -1);                   // Generate X in Empty Sq
 
 if (r == 1) g.fillText("X",i,j);
@@ -64,16 +60,16 @@ game+="X"+r;
 }
 
 function random() {
-  r = Math.floor(Math.random()*8)+1;            // Number from 1-9
-  console.log('r: '.concat(r));
+r = Math.floor(Math.random()*8)+1;            // Number from 1-9
+console.log('r: '.concat(r));
 }
 
 function win() {                                // Test Win Conditons
 var PO=new Array(); 
 for (var i=0; i<game.length; i++)               // Remove and Sort "O" Cells
 {   if (game[i] == "O") PO[i] = game[i+1];  }
-PO=PO.sort();
-console.log(PO.toString());
+PO=PO.sort();   console.log(PO.toString());
+
 for (var j=0; j<PO.length; j++)             
 {   if (PO[j+1]-PO[j] === PO[j+2]-PO[j+1]) console.log("YOU WIN!");}
 }
