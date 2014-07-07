@@ -3,14 +3,14 @@
 <body>
 <h1>Tic Tac Toe</h1>
 <canvas id="draw" width="300" height="300" onmousedown="ClickXY(event)"></canvas>
-<script>          /*
+<script>          
 var xhr=new XMLHttpRequest();                   // Load Games.txt
 xhr.onreadystatechange=function() { 
 if (xhr.readyState==4 && xhr.status==200)
 { console.log(xhr.responseText); }
 }
 xhr.open("GET","games.txt",true);
-xhr.send();       */
+xhr.send();       
 
 var g = document.getElementById("draw").getContext("2d");
 g.fillRect(0,0,100,100);                        // Draw Grid
