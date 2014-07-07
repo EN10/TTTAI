@@ -27,7 +27,7 @@ XYtoSQ(event.clientX,event.clientY);
 }
 
 var w=100; var h=100; var sq; var game;
-function  XYtoSQ(x,y) {    
+function  XYtoSQ(x,y) {                         // Convert MouseXY to a SQ
      if     (x < 10)        { sq=0; }           // Canvas starts 10 pixels on x
 else if     (x < 10+w)      { sq=1; }
 else if     (x < 10+2*w)    { sq=2; }
@@ -38,7 +38,8 @@ else if     (y < 60+h)      {       }
 else if     (y < 60+2*h)    { sq+=3;}
 else if     (y < 60+3*h)    { sq+=6;}
 else                        { sq= 0;}
-game+="O"+sq;  console.log(sq); output(); win();
+game+="O"+sq;  console.log('O: '.concat(sq));   // Store Game
+output(); win();
 }
 
 var r;
@@ -47,9 +48,8 @@ function output() {                             // Draw X
 var i=w/3; var j=h*2/3;                         // Offset Sq Center
 
 do 
-{
-  random();  }
-while (game.search(r) == -1);
+{ random(); }
+while (game.search(r) != -1);                   // Generate X in Empty Sq
 
 if (r == 1) g.fillText("X",i,j);
 if (r == 2) g.fillText("X",i+w,j);
@@ -60,10 +60,11 @@ if (r == 6) g.fillText("X",i+2*w,j+h);
 if (r == 7) g.fillText("X",i,j+2*h);
 if (r == 8) g.fillText("X",i+w,j+2*h);
 if (r == 9) g.fillText("X",i+2*w,j+2*h);
+game+="X"+r;
 }
 
 function random() {
-  r = Math.floor(Math.random()*8)+1;
+  r = Math.floor(Math.random()*8)+1;            // Number from 1-9
   console.log('r: '.concat(r));
 }
 
