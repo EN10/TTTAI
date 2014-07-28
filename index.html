@@ -22,7 +22,7 @@ g.fillRect(200,200,100,100);
 function ClickXY(event) {                       // Mouse ClickXY
 g.fillStyle="red";
 g.font="80px Arial";
-g.fillText("O",event.clientX-35,event.clientY-55);
+g.fillText("O",event.clientX-35,event.clientY-50);
 XYtoSQ(event.clientX,event.clientY);
 }
 
@@ -43,7 +43,7 @@ output(); win();
 }
 
 function output() {                             // Draw X
-var i=w/3; var j=h*2/3;                         // Offset Sq Center
+var i=w/3-10; var j=h*2/3+10;                   // Offset Sq Center
 do  { random(); }
 while (game.search(r) != -1);                   // Generate X in Empty Sq
 
