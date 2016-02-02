@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <body>
-<h1>Tic Tac Toe</h1>
+<h1 id="top">Tic Tac Toe</h1>
 <canvas id="draw"></canvas>
 <script>
 document.getElementById('draw').width = 300;
@@ -17,7 +17,7 @@ xhr.open("GET","games.txt",true);               // GET is simpler and faster tha
 xhr.send();
 
 var g = document.getElementById("draw").getContext("2d");
-g.fillRect(0,0,100,100);                        // Draw 
+g.fillRect(0,0,100,100);                        // Draw Board
 g.fillRect(200,0,100,100);
 g.fillRect(100,100,100,100);
 g.fillRect(0,200,100,100);
@@ -30,7 +30,8 @@ g.fillText("O",event.clientX-35,event.clientY-50);
 XYtoSQ(event.clientX,event.clientY);
 }
 
-var w=100; var h=100; var sq;  
+var w=100; var h=100; var sq; var count=0;
+var grid = []; var end = false;
 function  XYtoSQ(x,y) {                         // Convert MouseXY to a SQ
      if     (x < 10)        { sq=0; }           // Canvas starts 10 pixels on x
 else if     (x < 10+w)      { sq=1; }
@@ -42,15 +43,26 @@ else if     (y < 60+h)      {       }
 else if     (y < 60+2*h)    { sq+=3;}
 else if     (y < 60+3*h)    { sq+=6;}
 else                        { sq= 0;}
-grid[sq] = 'O';     count+=1;   win();          // Store Game
-if (count < 9) outputX();                       // Empty Sq ?
+count+=1;   grid[sq] = count+'O';   win();      // Store Game count+'O'
+if (count < 9 && end == false) outputX();                       // Empty Sq ?
+}
+
+var r;
+function random() {
+    r = Math.floor(Math.random()*(8-count))+1;  // Number from 1-9
+    console.log('r: '.concat(r));               // Debug random X sq
+    for (var i=1; i<9; i++){
+        if (r == 1 && grid[i] == undefined) 
+        {   r = i;  
+            break;
+        }
+        else if (grid[i] == undefined) r--;
+    }
 }
 
 function outputX() {                            // Draw X
 var i=w/3-10; var j=h*2/3+10;                   // Offset Sq Center
-do  {   random();   }
-while (grid[r] !== undefined);                  // Generate X in Empty Sq
-
+random();                                       // Generate X in Empty Sq
 if (r == 1) g.fillText("X",i,j);
 if (r == 2) g.fillText("X",i+w,j);
 if (r == 3) g.fillText("X",i+2*w,j);
@@ -61,46 +73,48 @@ if (r == 7) g.fillText("X",i,j+2*h);
 if (r == 8) g.fillText("X",i+w,j+2*h);
 if (r == 9) g.fillText("X",i+2*w,j+2*h);
 
-grid[r] = 'X';  count+=1;   displayGrid();
+count+=1;   grid[r] = count+'X';
+console.log('count: ' + count);
+// displayGrid();
 }
 
-var r;
-function random() {
-r = Math.floor(Math.random()*8)+1;              // Number from 1-9
-//console.log('r: '.concat(r));                 // Debug random X sq
-}
-
-var grid = [];  var count = 0;
+/*
 function displayGrid(){                         // Outputs the Grid
     var line = '';
     for (var i=1; i<=9; i++)
     {   if (grid[i] === undefined)   
         {   line += '-' }
         else
-        {   line += grid[i];    }
-        
+        {   line += grid[i].charAt(1);    }
         if (i % 3 === 0)
         {   console.log(line);
             line = '';
         }
     }
 }
-
+*/
 function win() {                                // Test Win Conditons   if x lose
     for (var i=1; i<=9; i+=3)             
-    {   if (grid[i] == 'O' && grid[i] === grid[i+1] && grid[i+1] === grid[i+2])
-        {   console.log("You WIN!"); }          // Horizontal
+    {   if (playerAt(i) == 'O' && playerAt(i) === playerAt(i+1) && playerAt(i+1) === playerAt(i+2))
+        {   end = true; document.getElementById("top").innerHTML = "You Win!"; }   // Horizontal
     }
     for (var j=1; j<=3; j++) 
-    {   if (grid[j] == 'O' && grid[j] === grid[j+3] && grid[j+3] === grid[j+6])
-        {   console.log("You WIN!"); }           // Vertical
+    {   if (playerAt(j) == 'O' && playerAt(j) === playerAt(j+3) && playerAt(j+3) === playerAt(j+6))
+        {   end = true; document.getElementById("top").innerHTML = "You Win!"; }   // Vertical
     }
-        if (grid[1] == 'O' && grid[1] === grid[5] && grid[5] === grid[9])
-        {   console.log("You WIN!"); }           // Main Diagonal
-        if (grid[3] == 'O' && grid[3] === grid[5] && grid[5] === grid[7])
-        {   console.log("You WIN!"); }           // Anti-Diagonal
-    
+        if (playerAt(1) == 'O' && playerAt(1) === playerAt(5) && playerAt(1) === playerAt(9))
+        {   end = true; document.getElementById("top").innerHTML = "You Win!"; }   // Main Diagonal
+        if (playerAt(3) == 'O' && playerAt(3) === playerAt(5) && playerAt(5) === playerAt(7))
+        {   end = true; document.getElementById("top").innerHTML = "You Win!"; }   // Anti-Diagonal
 }
+
+function playerAt(x){
+    if (grid[x] != undefined)
+    return grid[x].charAt(1);
+    else
+    return undefined;
+}
+
 </script>
 <p>By Enio Fernandes</p>
 </body>
