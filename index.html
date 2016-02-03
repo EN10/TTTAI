@@ -10,8 +10,10 @@ document.getElementById('draw').addEventListener('click', ClickXY);
 
 var xhr=new XMLHttpRequest();                   // Load Games.txt
 xhr.onreadystatechange=function() { 
-if (xhr.readyState==4 && xhr.status==200)
-{ console.log(xhr.responseText); }
+    if (xhr.readyState==4 && xhr.status==200)
+    {   console.log("File Loaded!"); 
+        // xhr.responseText;
+    }
 };
 xhr.open("GET","games.txt",true);               // GET is simpler and faster than POST
 xhr.send();
@@ -50,7 +52,6 @@ if (count < 9 && end == false) outputX();                       // Empty Sq ?
 var r;
 function random() {
     r = Math.floor(Math.random()*(8-count))+1;  // Number from 1-9
-    console.log('r: '.concat(r));               // Debug random X sq
     for (var i=1; i<9; i++){
         if (r == 1 && grid[i] == undefined) 
         {   r = i;  
@@ -74,7 +75,6 @@ if (r == 8) g.fillText("X",i+w,j+2*h);
 if (r == 9) g.fillText("X",i+2*w,j+2*h);
 
 count+=1;   grid[r] = count+'X';
-console.log('count: ' + count);
 // displayGrid();
 }
 
@@ -96,16 +96,21 @@ function displayGrid(){                         // Outputs the Grid
 function win() {                                // Test Win Conditons   if x lose
     for (var i=1; i<=9; i+=3)             
     {   if (playerAt(i) == 'O' && playerAt(i) === playerAt(i+1) && playerAt(i+1) === playerAt(i+2))
-        {   end = true; document.getElementById("top").innerHTML = "You Win!"; }   // Horizontal
+        {   end = true; }   // Horizontal
     }
     for (var j=1; j<=3; j++) 
     {   if (playerAt(j) == 'O' && playerAt(j) === playerAt(j+3) && playerAt(j+3) === playerAt(j+6))
-        {   end = true; document.getElementById("top").innerHTML = "You Win!"; }   // Vertical
+        {   end = true; }   // Vertical
     }
         if (playerAt(1) == 'O' && playerAt(1) === playerAt(5) && playerAt(1) === playerAt(9))
-        {   end = true; document.getElementById("top").innerHTML = "You Win!"; }   // Main Diagonal
+        {   end = true; }   // Main Diagonal
         if (playerAt(3) == 'O' && playerAt(3) === playerAt(5) && playerAt(5) === playerAt(7))
-        {   end = true; document.getElementById("top").innerHTML = "You Win!"; }   // Anti-Diagonal
+        {   end = true; }   // Anti-Diagonal
+        
+    if (end == true)    
+    {   document.getElementById("top").innerHTML = "You Win!";
+        savegame();
+    }
 }
 
 function playerAt(x){
@@ -113,6 +118,15 @@ function playerAt(x){
     return grid[x].charAt(1);
     else
     return undefined;
+}
+
+var game = [];
+function savegame(){
+    game[0] = "O";
+    for (var i=1; i<=9; i++) 
+    { if (grid[i] != undefined) game[grid[i].charAt(0)]=i; }
+    
+    console.log(game.toString());
 }
 
 </script>
