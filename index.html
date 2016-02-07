@@ -8,11 +8,12 @@ document.getElementById('draw').width = 300;
 document.getElementById('draw').height = 300;
 document.getElementById('draw').addEventListener('click', ClickXY);
 
+var games;
 var xhr=new XMLHttpRequest();                   // Load Games.txt
 xhr.onreadystatechange=function() { 
     if (xhr.readyState==4 && xhr.status==200)
-    {   console.log("File Loaded!"); 
-        // xhr.responseText;
+    {   games = xhr.responseText.split("\n");   // .split(",") see web.js Line 7 
+        console.log(games.length); 
     }
 };
 xhr.open("GET","games.txt",true);               // GET is simpler and faster than POST
@@ -123,9 +124,11 @@ function playerAt(x){
 var game = [];
 function savegame(){
     game[0] = "O";
-    for (var i=1; i<=9; i++) 
+    for (var i=1; i<=9; i++)                // convert grid to game 
     { if (grid[i] != undefined) game[grid[i].charAt(0)]=i; }
     
+    xhr.open("GET","/?g=" + game.toString(),true);
+    xhr.send();
     console.log(game.toString());
 }
 
