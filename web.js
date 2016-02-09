@@ -13,11 +13,12 @@ app.get("/", function(req, res) {
     else if (req.query.g !== undefined)           // Insert Game
   { var games = fs.readFileSync('games.txt').toString().split("\n");
     if (games.indexOf(req.query.g) == -1){
-    games[games.length-1] = req.query.g;
+    games.push(req.query.g);
     games.sort();
-    fs.writeFileSync('games.txt',games[1] + "\n");
-    for (var i=2; i<games.length; i++)
-    { fs.appendFileSync('games.txt',games[i] + "\n"); }
+    var file = "";
+    for (var i=0; i<=games.length; i++)
+    { if (games[i] != undefined && games[i] != "")  file += games[i] + "\n"; }
+    fs.writeFileSync('games.txt',file);
     }
   }
   else {  res.sendfile('index.html'); }   // Display Board 

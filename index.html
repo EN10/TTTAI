@@ -13,7 +13,8 @@ var xhr=new XMLHttpRequest();                   // Load Games.txt
 xhr.onreadystatechange=function() { 
     if (xhr.readyState==4 && xhr.status==200)
     {   games = xhr.responseText.split("\n");   // .split(",") see web.js Line 7 
-        console.log(games.length); 
+        console.log(games.length);
+        console.log(games[1].split(","));
     }
 };
 xhr.open("GET","games.txt",true);               // GET is simpler and faster than POST
