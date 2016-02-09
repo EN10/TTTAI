@@ -13,8 +13,7 @@ app.get("/", function(req, res) {
     else if (req.query.g !== undefined)           // Insert Game
   { var games = fs.readFileSync('games.txt').toString().split("\n");
     if (games.indexOf(req.query.g) == -1){
-    fs.appendFileSync('games.txt',req.query.g + "\n");
-    games = fs.readFileSync('games.txt').toString().split("\n");
+    games[games.length-1] = req.query.g;
     games.sort();
     fs.writeFileSync('games.txt',games[1] + "\n");
     for (var i=2; i<games.length; i++)
