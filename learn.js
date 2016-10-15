@@ -1,21 +1,13 @@
-var fs = require('fs');
-var games = fs.readFileSync('games.txt').toString().split("\n");
-var grid = [];
-var count = 0;    // sq's played
-var end = false;
-
 // play function
 // detect win, check exists if no then save
 play();
 
-function r(max){
-  var rnd;
-  do {  rnd = Math.round(Math.random() * max) + 1;  }
-  while (grid[rnd] != undefined);
-  return rnd;
-}
+var grid = [];
+var count = 0;    // sq's played
+var end = false;
 
 function play(){
+    console.log("play");
   // append random to string simpler but grid code reusable
   if (count % 2 == 0)   grid[r(9-count)] = count+'O';
   if (count % 2 == 1)   grid[r(9-count)] = count+'X';
@@ -23,6 +15,14 @@ function play(){
   count ++;  
   win();
   if (count < 9 && end == false) play();
+  if (count == 9)   console.log(game.toString()) ;
+}
+
+function r(max){
+  var rnd;
+  do {  rnd = Math.round(Math.random() * max) + 1;  }
+  while (grid[rnd] != undefined);
+  return rnd;
 }
 
 function playerAt(x){
@@ -47,6 +47,8 @@ function win() {                        // Test Win Conditons   if x lose
         {   end = true; savegame(); }   // Anti-Diagonal
 }
 
+var fs = require('fs');
+var games = fs.readFileSync('games.txt').toString().split("\n");
 var game = [];
 function savegame(){
     game[0] = "O";
