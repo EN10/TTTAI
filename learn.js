@@ -2,6 +2,7 @@ var fs = require('fs');
 var games = fs.readFileSync('games.txt').toString().split("\n");
 var grid = [];
 var count = 0;    // sq's played
+var end = false;
 
 // play function
 // detect win, check exists if no then save
@@ -15,13 +16,13 @@ function r(max){
 }
 
 function play(){
-  // append random to string simpler but grid code reusability
+  // append random to string simpler but grid code reusable
   if (count % 2 == 0)   grid[r(9-count)] = count+'O';
   if (count % 2 == 1)   grid[r(9-count)] = count+'X';
-  
-  // win(); console.log();
-  count ++;
-  if (count < 9) play();
+
+  count ++;  
+  win();
+  if (count < 9 && end == false) play();
 }
 
 function playerAt(x){
@@ -31,40 +32,35 @@ function playerAt(x){
     return undefined;
 }
 
-var winner = "";
-function win() {                                // Test Win Conditons   if x lose
+function win() {                        // Test Win Conditons   if x lose
     for (var i=1; i<=9; i+=3)             
     {   if (playerAt(i) == 'O' && playerAt(i) === playerAt(i+1) && playerAt(i+1) === playerAt(i+2))
-        {   savegame(); }   // Horizontal
+        {   end = true; savegame(); }   // Horizontal
     }
     for (var j=1; j<=3; j++) 
     {   if (playerAt(j) == 'O' && playerAt(j) === playerAt(j+3) && playerAt(j+3) === playerAt(j+6))
-        {   savegame(); }   // Vertical
+        {   end = true; savegame(); }   // Vertical
     }
         if (playerAt(1) == 'O' && playerAt(1) === playerAt(5) && playerAt(1) === playerAt(9))
-        {   savegame(); }   // Main Diagonal
+        {   end = true; savegame(); }   // Main Diagonal
         if (playerAt(3) == 'O' && playerAt(3) === playerAt(5) && playerAt(5) === playerAt(7))
-        {   savegame(); }   // Anti-Diagonal
+        {   end = true; savegame(); }   // Anti-Diagonal
 }
 
 var game = [];
 function savegame(){
     game[0] = "O";
-    for (var i=1; i<=9; i++)                // convert grid to game 
+    for (var i=1; i<=9; i++)            // convert grid to game 
     { if (grid[i] != undefined) game[grid[i].charAt(0)]=i; }
     
-    xhr.open("GET","/?g=" + game.toString(),true);
-    xhr.send();
-    console.log(game.toString());
+    console.log(game.toString())
+    
+    if (games.indexOf(game.toString()) == -1){
+    games.push(game.toString());
+    games.sort();
+    var file = "";
+    for (var i=0; i<=games.length; i++)
+    { if (games[i] != undefined && games[i] != "")  file += games[i] + "\n"; }
+    fs.writeFileSync('games.txt',file);
+    }
 }
-
-/*
-  if (games.indexOf(req.query.g) == -1){
-  games.push(req.query.g);
-  games.sort();
-  var file = "";
-  for (var i=0; i<=games.length; i++)
-  { if (games[i] != undefined && games[i] != "")  file += games[i] + "\n"; }
-  fs.writeFileSync('games.txt',file);
-  }
-*/
