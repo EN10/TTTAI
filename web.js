@@ -3,14 +3,14 @@ var app = express();
 
 app.get("/", function(req, res) {
   var fs = require('fs');
-  if (req.query.q == 'v' )                      // Output Games to HTML
+  if (req.query.q == 'v' )                  // Output Games to HTML
   { var arr = fs.readFileSync('games.txt').toString().split(",");
     var html = '';
     for (var i=0; i<arr.length; i++)
     {   html = html + arr[i] + " ";   }
     res.send(html);
   }   
-    else if (req.query.g !== undefined)           // Insert Game
+    else if (req.query.g !== undefined)     // Insert Game
   { var games = fs.readFileSync('games.txt').toString().split("\n");
     if (games.indexOf(req.query.g) == -1){
     games.push(req.query.g);
@@ -21,7 +21,7 @@ app.get("/", function(req, res) {
     fs.writeFileSync('games.txt',file);
     }
   }
-  else {  res.sendfile('index.html'); }   // Display Board 
+  else {  res.sendfile('index.html'); }     // Display Board 
 });
 
 /* serves all the static files */

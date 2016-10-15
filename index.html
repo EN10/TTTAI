@@ -95,19 +95,20 @@ function displayGrid(){                         // Outputs the Grid
     }
 }
 */
+var winner = "";
 function win() {                                // Test Win Conditons   if x lose
     for (var i=1; i<=9; i+=3)             
     {   if (playerAt(i) == 'O' && playerAt(i) === playerAt(i+1) && playerAt(i+1) === playerAt(i+2))
-        {   end = true; }   // Horizontal
+        {   end = true; winner='O'; }   // Horizontal
     }
     for (var j=1; j<=3; j++) 
     {   if (playerAt(j) == 'O' && playerAt(j) === playerAt(j+3) && playerAt(j+3) === playerAt(j+6))
-        {   end = true; }   // Vertical
+        {   end = true; winner='O'; }   // Vertical
     }
         if (playerAt(1) == 'O' && playerAt(1) === playerAt(5) && playerAt(1) === playerAt(9))
-        {   end = true; }   // Main Diagonal
+        {   end = true; winner='O'; }   // Main Diagonal
         if (playerAt(3) == 'O' && playerAt(3) === playerAt(5) && playerAt(5) === playerAt(7))
-        {   end = true; }   // Anti-Diagonal
+        {   end = true; winner='O'; }   // Anti-Diagonal
         
     if (end == true)    
     {   document.getElementById("top").innerHTML = "You Win!";
